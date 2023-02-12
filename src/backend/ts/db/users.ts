@@ -4,13 +4,19 @@ const users = {
 	data: [] as string[],
 	listeners: [] as Handle[],
 
-	add(item: string) {
+	add(item: string, status = true) {
 		this.data.push(item);
 
-		this.listeners.forEach((handler) => handler(item));
+		this.listeners.forEach((handler) => handler(item, status));
 	},
 
-	listen(handler: (item: string) => void) {
+	remove(item: string, status = false) {
+		this.data = this.data.filter((user) => user !== item);
+
+		this.listeners.forEach((handler) => handler(item, status));
+	},
+
+	listen(handler: (item: string, status: boolean) => void) {
 		this.listeners.push(handler);
 	}
 };

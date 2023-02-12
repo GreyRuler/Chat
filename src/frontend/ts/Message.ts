@@ -1,4 +1,5 @@
 import { IMessage } from '../../types/IMessage';
+// eslint-disable-next-line import/no-cycle
 import App from './App';
 
 export default class Message {
@@ -56,7 +57,12 @@ export default class Message {
 		user.classList.add('current-user');
 
 		date.textContent = this.message.date;
-		user.textContent = this.message.from;
 		text.textContent = this.message.text;
+
+		if (this.message.from === App.user) {
+			user.textContent = 'Вы';
+		} else {
+			user.textContent = this.message.from;
+		}
 	}
 }

@@ -4,6 +4,10 @@ import users from '../../db/users';
 
 const router = new Router();
 
+router.get('/users', (ctx: Koa.Context) => {
+	ctx.response.body = { users: users.data };
+});
+
 router.post('/users/:user', (ctx: Koa.Context) => {
 	const { user } = ctx.params;
 	if (users.data.some((item) => item === user)) {
@@ -14,8 +18,9 @@ router.post('/users/:user', (ctx: Koa.Context) => {
 	ctx.response.body = { status: true };
 });
 
-router.get('/users', (ctx: Koa.Context) => {
-	ctx.response.body = { users: users.data };
+router.delete('/users/:user', (ctx: Koa.Context) => {
+	const { user } = ctx.params;
+	users.remove(user);
 });
 
 export default router;

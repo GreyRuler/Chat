@@ -2,6 +2,7 @@ import UserApi from './UserApi';
 // eslint-disable-next-line import/no-cycle
 import App from './App';
 import { IMessage } from '../../types/IMessage';
+// eslint-disable-next-line import/no-cycle
 import Message from './Message';
 
 export default class Chat {
@@ -9,6 +10,10 @@ export default class Chat {
 
 	static get selectorUsersChat() {
 		return '.users_chat';
+	}
+
+	static get selectorUserChat() {
+		return '.users_chat li';
 	}
 
 	static get selectorMessagesChat() {
@@ -53,9 +58,13 @@ export default class Chat {
 		const users = await userApi.list();
 		users.forEach((user: string) => {
 			const li = document.createElement('li');
-			li.textContent = user;
 			li.classList.add('list-group-item');
-			if (user === App.user) li.classList.add('current-user');
+			if (user === App.user) {
+				li.textContent = 'Вы';
+				li.classList.add('current-user');
+			} else {
+				li.textContent = user;
+			}
 			usersChat.appendChild(li);
 		});
 
@@ -92,11 +101,26 @@ export default class Chat {
 		const eventSource = new EventSource('http://localhost:7070/sse');
 
 		eventSource.addEventListener('message', (e) => {
-			const user = JSON.parse(e.data);
-			const li = document.createElement('li');
-			li.textContent = user;
-			li.classList.add('list-group-item');
-			usersChat.appendChild(li);
+			const { item: user, status } = JSON.parse(e.data);
+			if (status) {
+				const li = document.createElement('li');
+				li.textContent = user;
+				li.classList.add('list-group-item');
+				usersChat.appendChild(li);
+			} else {
+				const usersEl = usersChat.querySelectorAll(
+					Chat.selectorUserChat
+				);
+				this.removeUserFromList(
+					user,
+					(Array.from(usersEl) as HTMLElement[])
+				);
+			}
 		});
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	removeUserFromList(user: string, users: HTMLElement[]) {
+		users.find((item) => item.textContent === user)?.remove();
 	}
 }

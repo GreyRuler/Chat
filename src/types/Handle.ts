@@ -1,1 +1,1 @@
-export type Handle = (item: string) => void;
+export type Handle = (item: string, status: boolean) => void;

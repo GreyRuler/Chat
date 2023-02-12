@@ -11,10 +11,13 @@ router.get('/sse', async (ctx) => {
 			return [];
 		},
 		stream(sse) {
-			users.listen((item) => {
+			users.listen((item, status) => {
 				sse.sendEvent({
 					id: v4(), // id
-					data: JSON.stringify(item)
+					data: JSON.stringify({
+						item,
+						status
+					})
 				});
 			});
 

@@ -28,4 +28,10 @@ export default class UserApi {
 		const { status } = json;
 		return status;
 	}
+
+	async remove(user: string) {
+		await fetch(`${this.apiUrl}users/${user}`, {
+			method: 'DELETE'
+		});
+	}
 }

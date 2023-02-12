@@ -53,10 +53,14 @@ export default class SignChat {
 		const api = new UserApi();
 
 		btnSubmit.addEventListener('click', async () => {
-			if (!input.value) return;
-			const response = await api.add(input.value);
+			const user = input.value;
+			if (!user) return;
+			const response = await api.add(user);
 			if (response) {
-				App.user = input.value;
+				window.addEventListener('beforeunload', () => {
+					api.remove(user);
+				});
+				App.user = user;
 				this.clear();
 				const chat = new Chat(
 					document.querySelector('#app') as HTMLElement
