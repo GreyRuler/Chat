@@ -2,6 +2,7 @@
 	"name": "chat",
 	"version": "1.0.0",
 	"main": "frontend/index.js",
+	"type": "module",
 	"scripts": {
 		"start": "webpack-dev-server --mode development",
 		"serve": "ts-node src/backend/ts/server.ts",
