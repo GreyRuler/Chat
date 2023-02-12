@@ -10,6 +10,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 	},
+	entry: './src/frontend/index.js',
 	module: {
 		rules: [
 			{
@@ -48,7 +49,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebPackPlugin({
-			template: './src/index.html',
+			template: './src/frontend/index.html',
 			filename: './index.html',
 		}),
 		new MiniCssExtractPlugin({
