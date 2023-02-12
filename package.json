@@ -15,7 +15,7 @@
 		"show:coverage": "live-server coverage/lcov-report",
 		"preshow:dist": "npm run build",
 		"show:dist": "live-server dist",
-		"build tsc": "tsc",
+		"build:tsc": "tsc",
 		"watch": "tsc -w",
 		"deploy": "gh-pages -d dist"
 	},
