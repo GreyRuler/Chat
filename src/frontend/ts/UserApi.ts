@@ -1,5 +1,5 @@
 export default class UserApi {
-	private readonly apiUrl: string = 'http://localhost:7070/';
+	private readonly apiUrl: string = 'http://192.168.1.46';
 
 	async list() {
 		const request = fetch(`${this.apiUrl}users`, {
