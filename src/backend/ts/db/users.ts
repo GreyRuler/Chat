@@ -1,4 +1,8 @@
-import { Handle } from '../../../types/Handle';
+const { Handle } = require('../../../types/Handle');
+
+const handleItem: Handle = (item, status) => {
+	console.log(`Item ${item} has status ${status}`);
+};
 
 const users = {
 	data: [] as string[],
