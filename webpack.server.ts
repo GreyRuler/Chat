@@ -29,7 +29,7 @@ const config: webpack.Configuration = {
 
 	output: {
 		filename: '[name].js',
-		path: path.join(__dirname, 'dist/')
+		path: path.join(__dirname, 'dist/backend')
 	},
 
 	resolve: {
