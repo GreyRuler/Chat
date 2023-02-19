@@ -1,4 +1,3 @@
-import UserApi from './UserApi';
 // eslint-disable-next-line import/no-cycle
 import Chat from './Chat';
 // eslint-disable-next-line import/no-cycle
@@ -6,6 +5,8 @@ import App from './App';
 
 export default class SignChat {
 	private container: HTMLElement;
+
+	private readonly apiUrl: string = 'http://localhost:7070';
 
 	static get selectorInput() {
 		return 'input';
@@ -50,16 +51,17 @@ export default class SignChat {
 			SignChat.selectorValidInput
 		) as HTMLInputElement;
 
-		const api = new UserApi();
-
 		btnSubmit.addEventListener('click', async () => {
 			const user = input.value;
 			if (!user) return;
-			const response = await api.add(user);
-			if (response) {
-				window.addEventListener('beforeunload', () => {
-					api.remove(user);
-				});
+			const response = await fetch(`${this.apiUrl}/users/${user}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			const { check } = await response.json();
+			if (check) {
 				App.user = user;
 				this.clear();
 				const chat = new Chat(

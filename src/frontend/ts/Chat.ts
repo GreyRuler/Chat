@@ -1,4 +1,3 @@
-import UserApi from './UserApi';
 // eslint-disable-next-line import/no-cycle
 import App from './App';
 import { IMessage } from '../../types/IMessage';
@@ -10,10 +9,6 @@ export default class Chat {
 
 	static get selectorUsersChat() {
 		return '.users_chat';
-	}
-
-	static get selectorUserChat() {
-		return '.users_chat li';
 	}
 
 	static get selectorMessagesChat() {
@@ -43,8 +38,6 @@ export default class Chat {
 	async bindToDOM() {
 		this.container.innerHTML = Chat.markup;
 
-		const userApi = new UserApi();
-
 		const usersChat = this.container.querySelector(
 			Chat.selectorUsersChat
 		) as HTMLElement;
@@ -55,20 +48,8 @@ export default class Chat {
 			Chat.selectorMessagesChat
 		) as HTMLElement;
 
-		const users = await userApi.list();
-		users.forEach((user: string) => {
-			const li = document.createElement('li');
-			li.classList.add('list-group-item');
-			if (user === App.user) {
-				li.textContent = 'Вы';
-				li.classList.add('current-user');
-			} else {
-				li.textContent = user;
-			}
-			usersChat.appendChild(li);
-		});
-
 		const ws = new WebSocket('ws://localhost:7070/ws');
+		// const ws = new WebSocket('wss://test-t7m0.onrender.com/ws');
 		messageChat.addEventListener('keyup', (event) => {
 			if (event.key === 'Enter') {
 				const message = messageChat.value;
@@ -86,41 +67,45 @@ export default class Chat {
 			}
 		});
 
+		ws.addEventListener('open', () => {
+			const data = JSON.stringify({
+				request: 'NEW_USER',
+				user: App.user
+			});
+			ws.send(data);
+		});
+
 		ws.addEventListener('message', (e) => {
 			const data = JSON.parse(e.data);
-			const { chat: messages } = data;
+			const { request } = data;
+			switch (request) {
+				case 'USERS': {
+					const { users } = data;
+					usersChat.innerHTML = '';
+					users.forEach((item: string) => {
+						const li = document.createElement('li');
+						li.classList.add('list-group-item');
+						if (item === App.user) {
+							li.textContent = 'Вы';
+							li.classList.add('current-user');
+						} else {
+							li.textContent = item;
+						}
+						usersChat.appendChild(li);
+					});
+					break;
+				}
+				default: {
+					const { chat: messages } = data;
 
-			messages.forEach((item: IMessage) => {
-				const messageEl = document.createElement('div');
-				const message = new Message(messageEl, item);
-				message.bindToDOM();
-				chat.append(messageEl);
-			});
-		});
-
-		const eventSource = new EventSource('http://localhost:7070/sse');
-
-		eventSource.addEventListener('message', (e) => {
-			const { item: user, status } = JSON.parse(e.data);
-			if (status) {
-				const li = document.createElement('li');
-				li.textContent = user;
-				li.classList.add('list-group-item');
-				usersChat.appendChild(li);
-			} else {
-				const usersEl = usersChat.querySelectorAll(
-					Chat.selectorUserChat
-				);
-				this.removeUserFromList(
-					user,
-					(Array.from(usersEl) as HTMLElement[])
-				);
+					messages.forEach((item: IMessage) => {
+						const messageEl = document.createElement('div');
+						const message = new Message(messageEl, item);
+						message.bindToDOM();
+						chat.append(messageEl);
+					});
+				}
 			}
 		});
-	}
-
-	// eslint-disable-next-line class-methods-use-this
-	removeUserFromList(user: string, users: HTMLElement[]) {
-		users.find((item) => item.textContent === user)?.remove();
 	}
 }
