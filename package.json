@@ -7,8 +7,8 @@
 
 		"start:server": "yarn npm-run-all --parallel watch:server watch:build",
 		"watch:build": "webpack --watch --config webpack.server.ts",
-		"watch:server": "nodemon \"./dist/server.js\" --watch \"./dist\"",
-		"serve": "node dist/server.js",
+		"watch:server": "nodemon \"./dist/backend/server.js\" --watch \"./dist/backend\"",
+		"serve": "node dist/backend/server.js",
 		"build:server": "webpack --mode production --config webpack.server.ts",
 
 		"lint": "eslint . --ext .js,.jsx,.ts,.tsx",
