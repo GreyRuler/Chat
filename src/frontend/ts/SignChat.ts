@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-cycle
 import Chat from './Chat';
-// eslint-disable-next-line import/no-cycle
 import App from './App';
 
 export default class SignChat {

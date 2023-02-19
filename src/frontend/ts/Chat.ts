@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-cycle
 import App from './App';
 import { IMessage } from '../../types/IMessage';
-// eslint-disable-next-line import/no-cycle
 import Message from './Message';
 
 export default class Chat {
