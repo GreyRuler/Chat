@@ -52,6 +52,7 @@ export default class SignChat {
 		btnSubmit.addEventListener('click', async () => {
 			const user = input.value;
 			if (!user) return;
+			btnSubmit.classList.add('block-event')
 			const response = await fetch(`${this.apiUrl}/users/${user}`, {
 				method: 'POST',
 				headers: {
@@ -68,6 +69,7 @@ export default class SignChat {
 				await chat.bindToDOM();
 			} else {
 				input.classList.add('is-invalid');
+				btnSubmit.classList.remove('block-event')
 				validFeedback.textContent = 'Такой псевдоним уже занят';
 			}
 		});
