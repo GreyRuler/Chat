@@ -46,8 +46,7 @@ export default class Chat {
 			Chat.selectorMessagesChat
 		) as HTMLElement;
 
-		const ws = new WebSocket('ws://localhost:7070/ws');
-		// const ws = new WebSocket('wss://test-t7m0.onrender.com/ws');
+		const ws = new WebSocket('wss://chat-z5j3.onrender.com/ws');
 		messageChat.addEventListener('keyup', (event) => {
 			if (event.key === 'Enter') {
 				const message = messageChat.value;

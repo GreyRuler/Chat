@@ -4,7 +4,7 @@ import App from './App';
 export default class SignChat {
 	private container: HTMLElement;
 
-	private readonly apiUrl: string = 'http://localhost:7070';
+	private readonly apiUrl: string = 'https://chat-z5j3.onrender.com';
 
 	static get selectorInput() {
 		return 'input';
