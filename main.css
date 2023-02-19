@@ -127,5 +127,9 @@
 	margin-left: 25%;
 }
 
+.block-event {
+	pointer-events: none;
+}
+
 
 /*# sourceMappingURL=main.css.map*/
