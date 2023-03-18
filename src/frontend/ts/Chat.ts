@@ -1,6 +1,6 @@
 import App from './App';
-import { IMessage } from '../../types/IMessage';
-import Message from './Message';
+import { Message } from '../../types/Message';
+import MessageUser from './MessageUser';
 
 export default class Chat {
 	private container: HTMLElement;
@@ -36,6 +36,10 @@ export default class Chat {
 	async bindToDOM() {
 		this.container.innerHTML = Chat.markup;
 
+		this.subscribe();
+	}
+
+	subscribe() {
 		const usersChat = this.container.querySelector(
 			Chat.selectorUsersChat
 		) as HTMLElement;
@@ -46,7 +50,8 @@ export default class Chat {
 			Chat.selectorMessagesChat
 		) as HTMLElement;
 
-		const ws = new WebSocket('wss://chat-z5j3.onrender.com/ws');
+		// const ws = new WebSocket('wss://chat-z5j3.onrender.com/ws');
+		const ws = new WebSocket('ws://localhost:7070/ws');
 		messageChat.addEventListener('keyup', (event) => {
 			if (event.key === 'Enter') {
 				const message = messageChat.value;
@@ -95,9 +100,9 @@ export default class Chat {
 				default: {
 					const { chat: messages } = data;
 
-					messages.forEach((item: IMessage) => {
+					messages.forEach((item: Message) => {
 						const messageEl = document.createElement('div');
-						const message = new Message(messageEl, item);
+						const message = new MessageUser(messageEl, item);
 						message.bindToDOM();
 						chat.append(messageEl);
 					});

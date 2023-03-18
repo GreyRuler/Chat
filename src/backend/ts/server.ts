@@ -2,7 +2,7 @@ import * as WS from 'ws';
 import * as http from 'http';
 import Koa from 'koa';
 import cors from '@koa/cors';
-import { IMessage } from '../../types/IMessage';
+import { Message } from '../../types/Message';
 import router from './routes/users';
 import users from './db/users';
 
@@ -12,7 +12,7 @@ const port = 7070;
 app.use(cors());
 app.use(router.routes());
 
-const chat: IMessage[] = [];
+const chat: Message[] = [];
 
 const server = http.createServer(app.callback()).listen(port);
 const wsServer = new WS.Server({

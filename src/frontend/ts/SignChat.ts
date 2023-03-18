@@ -4,7 +4,8 @@ import App from './App';
 export default class SignChat {
 	private container: HTMLElement;
 
-	private readonly apiUrl: string = 'https://chat-z5j3.onrender.com';
+	private readonly apiUrl: string = 'http://localhost:7070';
+	// private readonly apiUrl: string = 'https://chat-z5j3.onrender.com';
 
 	static get selectorInput() {
 		return 'input';
@@ -39,6 +40,15 @@ export default class SignChat {
 
 	bindToDOM() {
 		this.container.innerHTML = SignChat.markup;
+
+		this.subscribe();
+	}
+
+	clear() {
+		this.container.innerHTML = '';
+	}
+
+	subscribe() {
 		const btnSubmit = this.container.querySelector(
 			SignChat.selectorBtnNext
 		) as HTMLElement;
@@ -73,9 +83,5 @@ export default class SignChat {
 				validFeedback.textContent = 'Такой псевдоним уже занят';
 			}
 		});
-	}
-
-	clear() {
-		this.container.innerHTML = '';
 	}
 }

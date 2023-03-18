@@ -1,10 +1,10 @@
-import { IMessage } from '../../types/IMessage';
+import { Message } from '../../types/Message';
 import App from './App';
 
-export default class Message {
+export default class MessageUser {
 	private container: HTMLElement;
 
-	private message: IMessage;
+	private message: Message;
 
 	static get selectorDate() {
 		return '.date_message';
@@ -30,7 +30,7 @@ export default class Message {
 		`;
 	}
 
-	constructor(container: HTMLElement, message: IMessage) {
+	constructor(container: HTMLElement, message: Message) {
 		this.container = container;
 		this.message = message;
 	}
@@ -41,16 +41,16 @@ export default class Message {
 		} else {
 			this.container.classList.add('mr-25');
 		}
-		this.container.innerHTML = Message.markup;
+		this.container.innerHTML = MessageUser.markup;
 
 		const date = this.container.querySelector(
-			Message.selectorDate
+			MessageUser.selectorDate
 		) as HTMLElement;
 		const user = this.container.querySelector(
-			Message.selectorUser
+			MessageUser.selectorUser
 		) as HTMLElement;
 		const text = this.container.querySelector(
-			Message.selectorText
+			MessageUser.selectorText
 		) as HTMLElement;
 
 		user.classList.add('current-user');
